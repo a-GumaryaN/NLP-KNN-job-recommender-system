@@ -2,7 +2,7 @@ import pandas as pd
 from nnp_extractor import NNP
 from nnp_extractor import array_nnp_extractor
 from pathlib import Path
-import sys
+import ast
 
 processed_resume_data="./data/resume_data.csv" #processed resume data path
 resume_dataset="./data/UpdatedResumeDataSet.csv" #input resume data path
@@ -10,8 +10,15 @@ resume_dataset="./data/UpdatedResumeDataSet.csv" #input resume data path
 resume_data = Path(processed_resume_data)
 
 if resume_data.is_file():
+
     print("resume processed data exist")
+
     resume=pd.read_csv(processed_resume_data)
+
+    def string_to_list(input_string):
+        return ast.literal_eval(input_string)
+    
+    resume.skills=resume.skills.apply(string_to_list)
     
 else:
     print("start resume data process")
